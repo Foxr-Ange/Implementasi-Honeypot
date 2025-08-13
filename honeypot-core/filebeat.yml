@@ -1,0 +1,27 @@
+filebeat.inputs:
+  - type: filestream
+    id: cowrie-json
+    enabled: true
+    paths:
+      - /var/log/cowrie/log/cowrie.json*
+  - type: filestream
+    id: conpot-log
+    enabled: true
+    paths:
+      - /var/log/conpot/*.log
+
+processors:
+  - add_tags:
+      tags: ["honeypot"]
+  - add_fields:
+      target: event
+      fields:
+        category: "intrusion"
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  index: "honeypot-%{+yyyy.MM.dd}"
+
+setup.template.name: "honeypot"
+setup.template.pattern: "honeypot-*"
+setup.ilm.enabled: false

@@ -1,0 +1,18 @@
+filebeat.inputs:
+  - type: filestream
+    id: nginx
+    paths: ["/var/log/nginx/*access.log", "/var/log/nginx/*error.log"]
+  - type: filestream
+    id: haproxy
+    paths: ["/var/log/haproxy.log"]
+
+processors:
+  - add_fields:
+      target: labels
+      fields:
+        role: phishing-gateway
+
+output.elasticsearch:
+  hosts: ["http://ELK_IP:9200"]
+  index: "honeypot-gw-%{+yyyy.MM.dd}"
+setup.ilm.enabled: false

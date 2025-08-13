@@ -1,0 +1,50 @@
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+    ports: ["9200:9200"]
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.13.4
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports: ["5601:5601"]
+    depends_on: [elasticsearch]
+
+  cowrie:
+    image: cowrie/cowrie:latest
+    environment:
+      - COWRIE_TTYLOG=1
+    ports:
+      - "2222:2222"   # SSH (forwarded by gateway :22)
+      - "2223:2223"   # Telnet (gateway :23)
+      - "8080:8080"   # Fake HTTP (gateway :80/443 -> /sso/)
+    volumes:
+      - cowrie-data:/cowrie
+
+  conpot:
+    image: honeynet/conpot:latest
+    command: -t default
+    network_mode: host
+    volumes:
+      - conpot-data:/var/log/conpot
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:8.13.4
+    user: root
+    volumes:
+      - ./filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - cowrie-data:/var/log/cowrie
+      - conpot-data:/var/log/conpot
+    depends_on: [elasticsearch]
+    command: ["--strict.perms=false"]
+
+volumes:
+  esdata:
+  cowrie-data:
+  conpot-data:

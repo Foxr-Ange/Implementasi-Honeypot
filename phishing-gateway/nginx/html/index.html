@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Secure Portal</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0f172a;--card:#0b1220;--muted:#94a3b8;--text:#e2e8f0;--brand:#4f46e5;--brand-2:#22d3ee;--err:#ef4444}
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(1200px 600px at 80% -10%,rgba(34,211,238,.15),transparent),linear-gradient(180deg,#0b1020,#0f172a);min-height:100vh;color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;display:flex;align-items:center;justify-content:center;padding:2rem}
+    .shell{display:grid;grid-template-columns:1.1fr 1fr;gap:2rem;max-width:1100px;width:100%}
+    @media (max-width: 920px){.shell{grid-template-columns:1fr}}
+    .panel{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid rgba(148,163,184,.18);border-radius:18px;box-shadow:0 10px 40px rgba(0,0,0,.35);backdrop-filter:blur(6px)}
+    .left{position:relative;overflow:hidden;padding:28px}
+    .right{padding:28px}
+    .badge{display:inline-flex;align-items:center;gap:.5rem;padding:.35rem .6rem;border-radius:999px;background:rgba(79,70,229,.12);border:1px solid rgba(79,70,229,.25);font-size:.8rem;color:#c7d2fe}
+    .title{font-weight:700;font-size:2rem;line-height:1.2;margin:.8rem 0}
+    .muted{color:var(--muted)}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}
+    .metric{padding:12px;border-radius:12px;background:rgba(15,23,42,.6);border:1px solid rgba(148,163,184,.16)}
+    .metric .v{font-weight:700;font-size:1.05rem}
+    .metric .k{font-size:.8rem;color:var(--muted)}
+    .orb{position:absolute;inset:auto -60px -60px auto;width:280px;height:280px;border-radius:999px;background:radial-gradient(circle at 30% 30%,rgba(79,70,229,.5),transparent 60%),radial-gradient(circle at 70% 70%,rgba(34,211,238,.35),transparent 50%);filter:blur(12px);opacity:.7}
+    .logo{display:flex;align-items:center;gap:.7rem}
+    .logo svg{width:28px;height:28px}
+    .logo .name{font-weight:700;letter-spacing:.3px}
+    form{display:flex;flex-direction:column;gap:12px;margin-top:18px}
+    label{font-size:.9rem;color:var(--muted)}
+    input[type=email],input[type=password]{width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(148,163,184,.25);background:#0b1220;color:var(--text);outline:none}
+    input::placeholder{color:#6b7280}
+    .row{display:flex;align-items:center;justify-content:space-between}
+    .btn{appearance:none;border:0;border-radius:12px;background:linear-gradient(90deg,var(--brand),var(--brand-2));color:white;padding:12px 16px;font-weight:600;cursor:pointer;transition:transform .06s ease,filter .2s ease}
+    .btn:hover{filter:brightness(1.08)}
+    .btn:active{transform:translateY(1px)}
+    .hint{font-size:.85rem;color:var(--muted)}
+    .foot{margin-top:18px;font-size:.8rem;color:#94a3b8}
+    .alert{display:none;margin-top:10px;color:#fee2e2;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.35);padding:10px;border-radius:10px}
+    .sep{height:1px;background:linear-gradient(90deg,transparent,rgba(148,163,184,.25),transparent);margin:18px 0}
+    .note{font-size:.8rem;color:#94a3b8}
+    .links{display:flex;gap:10px;flex-wrap:wrap}
+    .links a{color:#a5b4fc;text-decoration:none}
+    .links a:hover{text-decoration:underline}
+    .shield{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:12px;border:1px solid rgba(148,163,184,.2);background:rgba(148,163,184,.08);font-size:.85rem}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <section class="panel left">
+      <div class="logo">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" stroke="url(#g)" stroke-width="1.4"/><defs><linearGradient id="g" x1="0" y1="0" x2="24" y2="24"><stop stop-color="#4f46e5"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs></svg>
+        <span class="name">Secure Portal</span>
+      </div>
+      <div class="badge" style="margin-top:14px">SSO • Internal Access</div>
+      <h1 class="title">Masuk ke Portal</h1>
+      <p class="muted">Gunakan akun perusahaan Anda. Akses ini dipantau untuk tujuan keamanan. Jangan gunakan kredensial personal.</p>
+
+      <div class="grid">
+        <div class="metric"><div class="v" id="m1">—</div><div class="k">Up-time (24h)</div></div>
+        <div class="metric"><div class="v" id="m2">—</div><div class="k">Rata-rata Latensi</div></div>
+        <div class="metric"><div class="v" id="m3">—</div><div class="k">Aktivitas 1h</div></div>
+        <div class="metric"><div class="v" id="m4">—</div><div class="k">Versi Build</div></div>
+      </div>
+
+      <div class="orb" aria-hidden="true"></div>
+    </section>
+
+    <section class="panel right" aria-label="Panel Login">
+      <div class="row" style="gap:10px;flex-wrap:wrap">
+        <div class="shield">TLS aktif</div>
+        <div class="shield">Pemantauan Keamanan</div>
+      </div>
+
+      <form id="login" autocomplete="off" novalidate>
+        <input type="text" name="fullname" id="fullname" style="display:none" tabindex="-1" aria-hidden="true" />
+        <div>
+          <label for="email">Email Perusahaan</label>
+          <input type="email" id="email" name="email" placeholder="nama@contoh.co.id" required inputmode="email" />
+        </div>
+        <div>
+          <label for="password">Kata Sandi</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" required />
+        </div>
+        <div class="row">
+          <div class="hint"><input type="checkbox" id="remember" /> <label for="remember">Ingat sesi ini</label></div>
+          <a class="hint" href="#">Lupa kata sandi?</a>
+        </div>
+        <button class="btn" type="submit">Masuk</button>
+        <div class="alert" id="alert" role="alert">Kredensial tidak valid. Silakan coba lagi.</div>
+        <p class="note">Catatan: Ini adalah lingkungan pengujian keamanan terkontrol. Jangan memasukkan data pribadi.</p>
+      </form>
+
+      <div class="sep"></div>
+      <div class="links">
+        <a href="#">Pusat Bantuan</a>
+        <a href="#">Kebijakan Keamanan</a>
+        <a href="#">Status Layanan</a>
+      </div>
+      <p class="foot">© <span id="y"></span> Secure Portal. Semua aktivitas dapat dipantau untuk tujuan pengujian keamanan.</p>
+    </section>
+  </div>
+
+  <script>
+    const uptime = (Math.random()*5 + 99).toFixed(2) + '%';
+    const latency = (Math.random()*30 + 20).toFixed(0) + ' ms';
+    const activity = (Math.random()*120 + 20).toFixed(0) + ' req';
+    const build = 'v' + (new Date()).toISOString().slice(2,10).replace(/-/g,'');
+    document.getElementById('m1').textContent = uptime;
+    document.getElementById('m2').textContent = latency;
+    document.getElementById('m3').textContent = activity;
+    document.getElementById('m4').textContent = build;
+    document.getElementById('y').textContent = new Date().getFullYear();
+
+    const form = document.getElementById('login');
+    const alertBox = document.getElementById('alert');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const pass = document.getElementById('password').value.trim();
+      if(!email || !pass){
+        alertBox.textContent = 'Lengkapi semua kolom.';
+        alertBox.style.display = 'block';
+        return;
+      }
+      alertBox.style.display = 'none';
+      const btn = form.querySelector('.btn');
+      btn.disabled = true; btn.textContent = 'Memeriksa…';
+      setTimeout(()=>{
+        btn.disabled = false; btn.textContent = 'Masuk';
+        alertBox.textContent = 'Kredensial tidak valid. Silakan coba lagi.';
+        alertBox.style.display = 'block';
+      }, 900 + Math.random()*600);
+    });
+  </script>
+</body>
+</html>
